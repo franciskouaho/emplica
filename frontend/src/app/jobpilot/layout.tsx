@@ -12,7 +12,7 @@ const DashboardLayout: FunctionComponent<DashboardLayoutProps> = ({children}) =>
             <Sidebar/>
             <div className="flex-1 flex flex-col px-3 gap-2">
                 <TopBar/>
-                <main className="flex-1 p-6 bg-white rounded-lg">
+                <main className="flex-1 p-6 bg-white rounded-lg shadow-md">
                     {children}
                 </main>
             </div>

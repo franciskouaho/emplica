@@ -111,7 +111,7 @@ export default function Features() {
   return (
     <div>
       <section className="border-t-border dark:border-t-darkBorder dark:bg-darkBg border-t-2 bg-bg py-20 font-base lg:py-[100px]">
-        <h2 className="mb-14 px-5 text-center text-2xl font-heading md:text-3xl lg:mb-20 lg:text-4xl">
+        <h2 className="mb-14 px-5 text-center text-white text-2xl font-heading md:text-3xl lg:mb-20 lg:text-4xl">
           Lorem ipsum dolor sit amet consectetur adipisicing
         </h2>
 

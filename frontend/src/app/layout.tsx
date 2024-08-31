@@ -17,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={dmSans.className + ' bg-[#f2f4f7]'}>
+      <body className={dmSans.className}>
         <ThemeProvider attribute="class" disableTransitionOnChange>
           {children}
           {/*<ThemeSwitcher />*/}

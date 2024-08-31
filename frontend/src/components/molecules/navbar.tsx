@@ -1,14 +1,13 @@
 'use client'
 
 import {useState} from 'react';
-import {Button} from "@/components/ui/button";
 import Link from "next/link";
 
 const Navbar = () => {
     const [activeLink, setActiveLink] = useState('');
 
     return (
-        <div className="flex justify-center sticky top-3 z-50">
+        <div className="flex w-full justify-center fixed top-3 z-50">
             <div className="max-w-[70rem] w-full">
                 <div className="rounded-2xl flex justify-center items-center h-16 bg-white px-4 py-2 shadow-xl">
                     <div className="flex justify-between items-center w-full">
@@ -32,7 +31,7 @@ const Navbar = () => {
                                 Log in
                             </Link>
                             <Link
-                                className="h-9 px-3 text-sm bg-main border-2 flex justify-center items-center border-border dark:border-darkBorder shadow-light dark:shadow-dark hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none dark:hover:shadow-none"
+                                className="h-9 px-3 text-sm bg-main border-2 text-white flex justify-center items-center border-border dark:border-darkBorder shadow-light dark:shadow-dark hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none dark:hover:shadow-none"
                                 href="/auth/signup">
                                 Sign up for free
                             </Link>

@@ -21,7 +21,7 @@ export default function Header() {
         </p>
         <Button
           size="lg"
-          className="h-12 text-base font-heading md:text-lg lg:h-14 lg:text-xl"
+          className="h-12 text-base text-white font-heading md:text-lg lg:h-14 lg:text-xl"
         >
             Sign up for free
         </Button>

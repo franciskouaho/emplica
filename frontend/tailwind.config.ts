@@ -14,13 +14,14 @@ const config: Config = {
         container: '1300px',
       },
       colors: {
-        main: '#A3E636',
-        mainAccent: '#88cc19', // not needed for shadcn components
+        main: '#007aff',
+        mainAccent: '#2b5fe3',
+        mainAccentLight: '#fcedbd',
         overlay: 'rgba(0,0,0,0.8)',
-        secondaryBlack: '#1b1b1b', // opposite of plain white, not used pitch black because borders and box-shadows are that color 
+        secondaryBlack: '#1b1b1b', // opposite of plain white, not used pitch black because borders and box-shadows are that color
 
         // light mode
-        bg: '#E0E7F1',
+        bg: '#2b5fe3',
         text: '#000',
         border: '#000',
 
