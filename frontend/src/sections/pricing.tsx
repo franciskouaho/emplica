@@ -1,4 +1,4 @@
-import PricingPlan from '@/components/pricing-plan'
+import PricingPlan from '@/components/organisms/pricing-plan'
 
 export default function Pricing() {
   return (
