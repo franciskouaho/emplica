@@ -1,28 +1,42 @@
-import type { Metadata } from 'next'
-import { DM_Sans } from 'next/font/google'
+'use client'
+
 import './globals.css'
-import { ThemeSwitcher } from '@/provider/theme-switcher'
-import { ThemeProvider } from '@/provider/theme-provider'
-
-const dmSans = DM_Sans({ subsets: ['latin'] })
-
-export const metadata: Metadata = {
-  title: 'Neobrutalism Saas template',
-}
+import {ThemeProvider} from '@/provider/theme-provider'
+import {useState} from "react";
+import {
+    QueryClient,
+    QueryClientProvider,
+} from '@tanstack/react-query'
+import {ReactQueryDevtools} from "@tanstack/react-query-devtools";
 
 export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode
+                                       children,
+                                   }: Readonly<{
+    children: React.ReactNode
 }>) {
-  return (
-    <html lang="en">
-      <body className={dmSans.className}>
-        <ThemeProvider attribute="class" disableTransitionOnChange>
-          {children}
-          {/*<ThemeSwitcher />*/}
-        </ThemeProvider>
-      </body>
-    </html>
-  )
+    const [queryClient] = useState(
+        () =>
+            new QueryClient({
+                defaultOptions: {
+                    queries: {
+                        refetchOnWindowFocus: false,
+                        retry: false,
+                        staleTime: 0,
+                    },
+                },
+            }),
+    )
+    return (
+        <html lang="en">
+        <body>
+        <QueryClientProvider client={queryClient}>
+            <ThemeProvider attribute="class" disableTransitionOnChange>
+                {children}
+                {/*<ThemeSwitcher />*/}
+            </ThemeProvider>
+            <ReactQueryDevtools initialIsOpen={false}/>
+        </QueryClientProvider>
+        </body>
+        </html>
+    )
 }

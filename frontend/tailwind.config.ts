@@ -17,7 +17,9 @@ const config: Config = {
         main: '#007aff',
         mainAccent: '#2b5fe3',
         mainAccentLight: '#fcedbd',
+        mainAccentGray: '#f2f4f7',
         overlay: 'rgba(0,0,0,0.8)',
+        mainAccentGreen: '#B8FF9F',
         secondaryBlack: '#1b1b1b', // opposite of plain white, not used pitch black because borders and box-shadows are that color
 
         // light mode

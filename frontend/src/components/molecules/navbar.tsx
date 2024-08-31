@@ -9,7 +9,7 @@ const Navbar = () => {
     return (
         <div className="flex w-full justify-center fixed top-3 z-50">
             <div className="max-w-[70rem] w-full">
-                <div className="rounded-2xl flex justify-center items-center h-16 bg-white px-4 py-2 shadow-xl">
+                <div className="rounded-2xl flex justify-center items-center h-16 bg-mainAccentGray border border-solid border-black px-4 py-2 shadow-xl">
                     <div className="flex justify-between items-center w-full">
                         <div className="text-2xl font-bold">Logo</div>
                         <div className="flex items-center gap-4 text-sm">
