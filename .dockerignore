@@ -1,0 +1,39 @@
+# Dependencies
+node_modules
+.pnp
+.pnp.js
+.yarn/install-state.gz
+
+# Build output
+build
+.tmp
+/.next/
+/out/
+public/assets
+
+# Environment files
+.env
+.env.local
+.env.production.local
+.env.development.local
+
+# Logs
+npm-debug.log
+yarn-error.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editors
+.fleet
+.idea
+.vscode
+
+# OS specific
+.DS_Store
+
+# Misc
+*.pem
+*.tsbuildinfo
+next-env.d.ts
+.vercel
