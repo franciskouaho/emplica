@@ -1,7 +1,8 @@
 import api from "@/config/api";
 import {useQuery} from "@tanstack/react-query";
+import job from "@/types/jobs/job";
 
-const fetchJobs = async (url: string) => {
+const fetchJobs = async (url: string): Promise<job[]> => {
     const response = await api.get(url)
     return response.data
 }

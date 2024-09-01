@@ -3,7 +3,6 @@ import logging
 import httpx
 import tempfile
 import os
-from botocore.config import Config
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from backend.s3_config import get_s3_client
@@ -42,7 +41,7 @@ def get_companies():
         'order_by': 'name',
         'language': 'fr',
         'page': '1',
-        'per_page': '20',
+        'per_page': '30',
     }
 
     headers_companies = {

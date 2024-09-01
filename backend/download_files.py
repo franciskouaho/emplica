@@ -1,12 +1,10 @@
 import json
-
 from sqlalchemy.orm import Session
 from backend.s3_config import get_s3_client
 from backend.sql_app.database import SessionLocal
 from backend.sql_app.models import Company
 
 bucket_name = 'jobpilot'
-
 
 def process_files_from_bucket():
     s3 = get_s3_client()
@@ -17,12 +15,15 @@ def process_files_from_bucket():
         for obj in response['Contents']:
             file_name = obj['Key']
             file_obj = s3.get_object(Bucket=bucket_name, Key=file_name)
-            file_content = file_obj['Body'].read().decode('utf-8')
+            try:
+                file_content = file_obj['Body'].read().decode('utf-8')
+            except UnicodeDecodeError as e:
+                print(f"Error decoding file {file_name}: {e}")
+                continue
             data = json.loads(file_content)
             save_to_database(data)
     else:
         print('No files found in the bucket.')
-
 
 def save_to_database(data):
     db: Session = SessionLocal()
@@ -41,6 +42,8 @@ def save_to_database(data):
         benefits = result['hits'][0]['benefits']
         profile = result['hits'][0]['profile']
         highlight_result = result['hits'][0]['_highlightResult']['name']['value']
+        slug = result['hits'][0]['organization']['slug']
+
         print(f'name_company: {name_company}')
         print(f'name_job: {name_job}')
         print(f'salary_minimum: {salary_minimum}')
@@ -50,6 +53,7 @@ def save_to_database(data):
         print(f'benefits: {benefits}')
         print(f'profile: {profile}')
         print(f'highlightResult: {highlight_result}')
+        print(f'slug: {slug}')
         try:
             company = Company(
                 name_company=name_company,
@@ -60,7 +64,8 @@ def save_to_database(data):
                 city=city,
                 benefits=benefits,
                 profile=profile,
-                highlight_result=highlight_result
+                highlight_result=highlight_result,
+                slug=slug
             )
             db.add(company)
             db.commit()

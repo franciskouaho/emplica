@@ -1,14 +1,17 @@
 'use client'
 
-import {FunctionComponent, useState} from "react";
-import {clsx} from "clsx";
+import { FunctionComponent } from "react";
+import { clsx } from "clsx";
 
 interface CheckboxProps {
     checked: boolean;
     setChecked: (checked: boolean) => void;
 }
 
-const Checkbox: FunctionComponent<CheckboxProps> = ({checked, setChecked}) => {
+const Checkbox: FunctionComponent<CheckboxProps> = ({ checked = false, setChecked }) => {
+    const handleChange = () => {
+        setChecked(!checked);
+    };
 
     return (
         <>
@@ -23,7 +26,7 @@ const Checkbox: FunctionComponent<CheckboxProps> = ({checked, setChecked}) => {
                         }
                     )}
                     checked={checked}
-                    onClick={() => setChecked(!checked)}
+                    onChange={handleChange}
                 />
             </label>
         </>
@@ -31,4 +34,3 @@ const Checkbox: FunctionComponent<CheckboxProps> = ({checked, setChecked}) => {
 };
 
 export default Checkbox;
-

@@ -19,3 +19,4 @@ class Company(Base):
     benefits = Column(String)
     profile = Column(String)
     highlight_result = Column(String)
+    slug = Column(String)
