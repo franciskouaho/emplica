@@ -1,4 +1,4 @@
-# models.py
+# company.py
 from sqlalchemy import Column, String, Float, Date
 from sqlalchemy.dialects.postgresql import UUID
 import uuid

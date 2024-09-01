@@ -1,4 +1,19 @@
+version: '3.8'
+
 services:
+  traefik:
+    image: traefik:v3.0
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "./traefik.yml:/etc/traefik/traefik.yml"
+
   backend:
     build:
       context: ./backend
@@ -8,8 +23,13 @@ services:
     depends_on:
       - database
       - minio
+      - redis
     volumes:
       - .:/backend
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.backend.rule=Host(`backend.localhost`)"
+      - "traefik.http.services.backend.loadbalancer.server.port=8000"
 
   frontend:
     build:
@@ -23,6 +43,10 @@ services:
       - /usr/src/app/.next/cache
     ports:
       - "3000:3000"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.frontend.rule=Host(`localhost`)"
+      - "traefik.http.services.frontend.loadbalancer.server.port=3000"
 
   database:
     image: postgres:15
@@ -46,6 +70,11 @@ services:
     volumes:
       - minio_data:/data/minio
     command: 'minio server /data/minio --address ":9000" --console-address ":9001"'
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
 
 volumes:
   minio_data:

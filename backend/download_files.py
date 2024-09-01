@@ -2,7 +2,7 @@ import json
 from sqlalchemy.orm import Session
 from backend.s3_config import get_s3_client
 from backend.sql_app.database import SessionLocal
-from backend.sql_app.models import Company
+from backend.sql_app.models.company import Company
 
 bucket_name = 'jobpilot'
 
