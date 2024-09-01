@@ -1,0 +1,52 @@
+entryPoints:
+  web:
+    address: ":8081"
+  traefik:
+    address: ":8082"
+
+
+providers:
+  docker:
+    exposedByDefault: false
+
+api:
+  dashboard: true
+
+middlewares:
+  auth:
+    forwardAuth:
+      address: "http://backend:8000/auth"
+      trustForwardHeader: true
+      authResponseHeaders:
+        - "X-User"
+    responseForwarding:
+      flushInterval: 100ms
+
+http:
+  routers:
+    backend:
+      rule: "Host(`backend.localhost`)"
+      service: backend_service
+      entryPoints:
+        - web
+      middlewares:
+        - auth
+
+    frontend:
+      rule: "Host(`localhost`)"
+      service: frontend_service
+      entryPoints:
+        - web
+      middlewares:
+        - auth
+
+  services:
+    backend_service:
+      loadBalancer:
+        servers:
+          - url: "http://backend:8000"
+
+    frontend_service:
+      loadBalancer:
+        servers:
+          - url: "http://frontend:3000"

@@ -11,26 +11,28 @@ const Page = () => {
 
             <div
                 className="schedule-table bg-white border-4 border-black shadow-lg flex flex-col gap-2 p-4 lg:col-span-4 lg:row-span-1">
-                <h2 className="text-xl font-bold">Emploi du temps hebdomadaire</h2>
-                <table className="border-collapse">
-                    <tbody>
-                    <tr>
-                        <th className="border-4 border-black p-2 bg-pink-200">Jour</th>
-                        <th className="border-4 border-black p-2 bg-green-200">Nom entreprise</th>
-                        <th className="border-4 border-black p-2 bg-purple-200">Date</th>
-                    </tr>
-                    <tr className="hover:bg-blue-200">
-                        <td className="border-4 border-black p-2">Monday</td>
-                        <td className="border-4 border-black p-2">Running</td>
-                        <td className="border-4 border-black p-2">6:00 AM</td>
-                    </tr>
-                    <tr className="hover:bg-blue-200">
-                        <td className="border-4 border-black p-2">Tuesday</td>
-                        <td className="border-4 border-black p-2">Swimming</td>
-                        <td className="border-4 border-black p-2">7:00 AM</td>
-                    </tr>
-                    </tbody>
-                </table>
+                <h2 className="text-xl font-bold">Hebdomadaire</h2>
+                <div className="overflow-x-auto">
+                    <table className="border-collapse w-full">
+                        <tbody>
+                        <tr>
+                            <th className="border-4 border-black p-2 bg-pink-200">Jour</th>
+                            <th className="border-4 border-black p-2 bg-green-200">Nom entreprise</th>
+                            <th className="border-4 border-black p-2 bg-purple-200">Date</th>
+                        </tr>
+                        <tr className="hover:bg-blue-200">
+                            <td className="border-4 border-black p-2">Monday</td>
+                            <td className="border-4 border-black p-2">Running</td>
+                            <td className="border-4 border-black p-2">6:00 AM</td>
+                        </tr>
+                        <tr className="hover:bg-blue-200">
+                            <td className="border-4 border-black p-2">Tuesday</td>
+                            <td className="border-4 border-black p-2">Swimming</td>
+                            <td className="border-4 border-black p-2">7:00 AM</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <div

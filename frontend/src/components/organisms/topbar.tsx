@@ -1,6 +1,7 @@
 'use client'
 
 import {useState} from "react";
+import {ThemeSwitcher} from "@/provider/theme-switcher";
 
 const TopBar = () => {
     const [open, setOpen] = useState(false);
@@ -15,6 +16,8 @@ const TopBar = () => {
                     className="border-black border-2 rounded-full bg-white w-10 h-10 text-black">
                     <p className="text-sm">200</p>
                 </button>
+
+                <ThemeSwitcher/>
 
                 <div className="relative inline-block text-left text-black">
                     <div>

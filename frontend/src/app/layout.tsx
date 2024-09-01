@@ -33,7 +33,6 @@ export default function RootLayout({
         <QueryClientProvider client={queryClient}>
             <ThemeProvider attribute="class" disableTransitionOnChange>
                 {children}
-                {/*<ThemeSwitcher />*/}
                 <Toaster/>
             </ThemeProvider>
             <ReactQueryDevtools initialIsOpen={false}/>

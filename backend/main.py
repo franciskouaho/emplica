@@ -25,11 +25,12 @@ app = FastAPI()
 
 origins = [
     "http://localhost:3000",
+    "http://localhost"
 ]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -72,7 +73,7 @@ async def login(login_request: LoginRequest, db: Session = Depends(get_db)):
         value=session_token,
         httponly=True,
         secure=False,
-        samesite="Lax"
+        samesite="lax"
     )
 
     return response
@@ -93,7 +94,9 @@ async def auth(request: Request):
     except (BadSignature, SignatureExpired):
         raise HTTPException(status_code=401, detail="Invalid session token, please log in again.")
 
-    return JSONResponse(content={"message": "Authenticated"})
+    response = JSONResponse(content={"message": "Authenticated"})
+    response.headers["X-User"] = username
+    return response
 
 
 @app.post("/signup")

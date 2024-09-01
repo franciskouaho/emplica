@@ -13,8 +13,8 @@ custom_config = Config(
 def get_s3_client():
     return boto3.client('s3',
                         endpoint_url='http://minio:9000',
-                        aws_access_key_id='a05YU2ziPi2CUxyE4vgW',
-                        aws_secret_access_key='N3emN0jXBkTVVXQIJEx0FnRUov5zpUaMTkm7KCMw',
+                        aws_access_key_id='Ux3pqsZNa1333TVTBtvk',
+                        aws_secret_access_key='SGC6H4zaJtZi8PtDsLNJPVjSoqjyeUUjiSykrEfO',
                         aws_session_token=None,
                         config=custom_config,
                         verify=False
