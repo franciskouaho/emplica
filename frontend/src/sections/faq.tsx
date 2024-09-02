@@ -33,35 +33,27 @@ export default function Faq() {
                 <div className="mx-auto grid w-[700px] max-w-full px-5">
                     <Accordion className="text-base sm:text-lg" type="single" collapsible>
                         <AccordionItem className="mb-2" value="item-1">
-                            <AccordionTrigger className="text-white">Lorem ipsum dolor sit amet</AccordionTrigger>
+                            <AccordionTrigger className="text-white">Comment fonctionne le système de matching ?</AccordionTrigger>
                             <AccordionContent className="text-black">
-                                Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                                Accusantium suscipit sed nihil fuga sapiente facere dolore
-                                corrupti labore illum reiciendis?
+                                Notre algorithme analyse votre profil et vos compétences pour vous proposer les offres d'emploi les plus pertinentes.
                             </AccordionContent>
                         </AccordionItem>
                         <AccordionItem className="mb-2" value="item-2">
-                            <AccordionTrigger className="text-white">Lorem ipsum dolor sit amet</AccordionTrigger>
+                            <AccordionTrigger className="text-white">Puis-je utiliser la plateforme gratuitement ?</AccordionTrigger>
                             <AccordionContent className="text-black">
-                                Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                                Accusantium suscipit sed nihil fuga sapiente facere dolore
-                                corrupti labore illum reiciendis?
+                                Oui, vous pouvez vous inscrire gratuitement et accéder à un nombre limité d'offres. Des plans payants offrent des fonctionnalités supplémentaires.
                             </AccordionContent>
                         </AccordionItem>
                         <AccordionItem className="mb-2" value="item-3">
-                            <AccordionTrigger className="text-white">Lorem ipsum dolor sit amet</AccordionTrigger>
+                            <AccordionTrigger className="text-white">Comment puis-je postuler à une offre d'emploi ?</AccordionTrigger>
                             <AccordionContent className="text-black">
-                                Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                                Accusantium suscipit sed nihil fuga sapiente facere dolore
-                                corrupti labore illum reiciendis?
+                                Après avoir trouvé une offre qui vous intéresse, vous pouvez postuler directement via notre plateforme en un seul clic.
                             </AccordionContent>
                         </AccordionItem>
                         <AccordionItem value="item-4">
-                            <AccordionTrigger className="text-white">Lorem ipsum dolor sit amet</AccordionTrigger>
+                            <AccordionTrigger className="text-white">Quelles plateformes d'emploi sont incluses dans la recherche multi-plateformes ?</AccordionTrigger>
                             <AccordionContent className="text-black">
-                                Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                                Accusantium suscipit sed nihil fuga sapiente facere dolore
-                                corrupti labore illum reiciendis?
+                                Nous rassemblons des offres provenant de plusieurs sites d'emploi populaires, vous offrant ainsi un large éventail d'opportunités en un seul endroit.
                             </AccordionContent>
                         </AccordionItem>
                     </Accordion>
@@ -72,14 +64,13 @@ export default function Faq() {
                     className="border-y-border dark:border-y-darkBorder dark:border-darkBorder dark:bg-darkBg border-y-2 bg-white py-3 font-base sm:py-5"
                     direction="right"
                 >
-                    {Array(10)
-                        .fill('xd')
+                    {['Welcome to the jungle', 'Indeed', 'Linkedin', 'Monster']
                         .map((x, id) => {
                             return (
                                 <div className="flex items-center" key={id}>
-                  <span className="mx-10 text-xl font-heading sm:text-2xl lg:text-4xl">
-                    Neobrutalism components
-                  </span>
+                    <span className="mx-10 text-xl font-heading sm:text-2xl lg:text-4xl">
+                        {x}
+                    </span>
                                     <Star3/>
                                 </div>
                             )

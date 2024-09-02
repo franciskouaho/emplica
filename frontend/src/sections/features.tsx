@@ -159,14 +159,13 @@ export default function Features() {
                     className="border-y-border dark:border-y-darkBorder dark:border-darkBorder dark:bg-darkBg border-y-2 bg-white py-3 font-base sm:py-5"
                     direction="left"
                 >
-                    {Array(10)
-                        .fill('xd')
+                    {['Welcome to the jungle', 'Indeed', 'Linkedin', 'Monster']
                         .map((x, id) => {
                             return (
                                 <div className="flex items-center" key={id}>
-                  <span className="mx-10 text-xl font-heading sm:text-2xl lg:text-4xl">
-                    Neobrutalism components
-                  </span>
+                    <span className="mx-10 text-xl font-heading sm:text-2xl lg:text-4xl">
+                        {x}
+                    </span>
                                     <Star3/>
                                 </div>
                             )
