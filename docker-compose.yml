@@ -11,8 +11,8 @@ services:
       - "--log.level=DEBUG"
       - "--accesslog=true"
     ports:
-      - "8081:8081"
-      - "8082:8082"
+      - "8083:8081"
+      - "8084:8082"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
     networks:
