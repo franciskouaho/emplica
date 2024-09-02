@@ -46,11 +46,25 @@ http:
       loadBalancer:
         servers:
           - url: "http://backend:8000"
+        sticky:
+          cookie:
+            name: "session_token"
+            secure: false
+            httpOnly: true
+            sameSite: "Lax"
+            domain: ".localhost"
 
     frontend_service:
       loadBalancer:
         servers:
           - url: "http://frontend:3000"
+        sticky:
+          cookie:
+            name: "session_token"
+            secure: false
+            httpOnly: true
+            sameSite: "Lax"
+            domain: ".localhost"
 
   middlewares:
     frontend-auth:

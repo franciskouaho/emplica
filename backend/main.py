@@ -5,7 +5,6 @@ from fastapi import FastAPI, Request, File, Form, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from itsdangerous import URLSafeTimedSerializer, BadSignature, SignatureExpired
-from starlette.responses import JSONResponse
 
 from backend.compagnies import get_focused_jobs
 from backend.download_files import process_files_from_bucket
@@ -40,7 +39,7 @@ Base.metadata.create_all(bind=engine)
 
 redis_client = aioredis.from_url("redis://redis:6379", decode_responses=True)
 
-SESSION_SECRET_KEY = "eazfe"
+SESSION_SECRET_KEY = "eazkeazgvegazcgecazkhgcehkgcazhgczge"
 serializer = URLSafeTimedSerializer(SESSION_SECRET_KEY)
 
 
@@ -55,11 +54,13 @@ class LoginRequest(BaseModel):
     password: str
 
 
+from fastapi.responses import JSONResponse
+
 @app.post("/token")
 async def login(login_request: LoginRequest, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.email == login_request.email).first()
     if not user or not verify_password(login_request.password, user.hashed_password):
-        raise HTTPException(status_code=400, detail="Incorrect email or password")
+        raise HTTPException(status_code=400, detail="Incorrect email ou mot de passe")
 
     session_token = serializer.dumps(user.username)
 
@@ -73,10 +74,13 @@ async def login(login_request: LoginRequest, db: Session = Depends(get_db)):
         value=session_token,
         httponly=True,
         secure=False,
-        samesite="lax"
+        samesite="lax",
+        max_age=3600,
+        expires=3600
     )
 
     return response
+
 
 
 @app.get("/auth")
