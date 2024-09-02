@@ -1,22 +1,35 @@
 version: '3.8'
 
 services:
-  traefik:
+  traefik_frontend:
     image: traefik:v2.5
     command:
       - "--api.insecure=true"
       - "--providers.docker=true"
-      - "--entrypoints.web.address=:8081"
-      - "--entrypoints.traefik.address=:8082"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
       - "--log.level=DEBUG"
       - "--accesslog=true"
     ports:
-      - "8083:8081"
-      - "8084:8082"
+      - "80:80"
+      - "443:443"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
     networks:
-      - jobpilot_network
+      - traefik_network
+
+  traefik_backend:
+    image: traefik:v2.5
+    command:
+      - "--providers.docker=true"
+      - "--entrypoints.internal.address=:8081"  # Port interne pour la redirection
+      - "--log.level=DEBUG"
+    ports:
+      - "8081:8081"  # Port interne, n'expose pas directement à l'extérieur
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    networks:
+      - traefik_network
 
   backend:
     build:
@@ -33,9 +46,10 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.backend.rule=Host(`api.emplica.fr`)"
+      - "traefik.http.routers.backend.entrypoints=internal"  # Lié à l'entrée "internal"
       - "traefik.http.services.backend.loadbalancer.server.port=8000"
     networks:
-      - jobpilot_network
+      - traefik_network
 
   frontend:
     build:
@@ -52,47 +66,11 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.frontend.rule=Host(`emplica.fr`)"
+      - "traefik.http.routers.frontend.entrypoints=internal"  # Lié à l'entrée "internal"
+      - "traefik.http.services.frontend.loadbalancer.server.port=3000"
     networks:
-      - jobpilot_network
-
-  database:
-    image: postgres:15
-    ports:
-      - "5432:5432"
-    environment:
-      POSTGRES_USER: jobpilot
-      POSTGRES_PASSWORD: jobpilot
-      POSTGRES_DB: jobpilot
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    networks:
-      - jobpilot_network
-
-  minio:
-    image: minio/minio:latest
-    ports:
-      - "9000:9000"
-      - "9001:9001"
-    environment:
-      MINIO_ROOT_USER: minioaccesskey
-      MINIO_ROOT_PASSWORD: miniosecretkey
-    volumes:
-      - minio_data:/data/minio
-    command: 'minio server /data/minio --address ":9000" --console-address ":9001"'
-    networks:
-      - jobpilot_network
-
-  redis:
-    image: redis:latest
-    ports:
-      - "6379:6379"
-    networks:
-      - jobpilot_network
+      - traefik_network
 
 networks:
-  jobpilot_network:
+  traefik_network:
     driver: bridge
-
-volumes:
-  minio_data:
-  postgres_data:
