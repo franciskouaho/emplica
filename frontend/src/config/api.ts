@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
 
 const api: AxiosInstance = axios.create({
-    baseURL: 'http://localhost:8000/',
+    baseURL: 'http://api.emplica.fr:8083/',
     withCredentials: true,
 });
 
