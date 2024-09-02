@@ -32,7 +32,7 @@ services:
       - .:/backend
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.backend.rule=Host(`localhost`)"
+      - "traefik.http.routers.backend.rule=Host(`api.emplica.fr`)"
       - "traefik.http.services.backend.loadbalancer.server.port=8000"
     networks:
       - jobpilot_network
@@ -51,7 +51,7 @@ services:
       - "3000:3000"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.frontend.rule=Host(`localhost`)"
+      - "traefik.http.routers.frontend.rule=Host(`emplica.fr`)"
     networks:
       - jobpilot_network
 
