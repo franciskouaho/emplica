@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   traefik_frontend:
     image: traefik:v2.5
