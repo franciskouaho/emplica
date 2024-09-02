@@ -24,7 +24,8 @@ app = FastAPI()
 
 origins = [
     "http://localhost:3000",
-    "http://localhost"
+    "http://localhost",
+    "http://backend.localhost"
 ]
 
 app.add_middleware(
@@ -56,6 +57,12 @@ class LoginRequest(BaseModel):
 
 from fastapi.responses import JSONResponse
 
+
+@app.get("/")
+async def health():
+    return {"status": "ok"}
+
+
 @app.post("/token")
 async def login(login_request: LoginRequest, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.email == login_request.email).first()
@@ -75,12 +82,12 @@ async def login(login_request: LoginRequest, db: Session = Depends(get_db)):
         httponly=True,
         secure=False,
         samesite="lax",
+        domain=".localhost",
         max_age=3600,
         expires=3600
     )
 
     return response
-
 
 
 @app.get("/auth")

@@ -46,19 +46,19 @@ const Signup = () => {
                         <label htmlFor="username" className="font-semibold mb-1">Nom complet</label>
                         <input type="text"
                                className="w-full outline-none border-2 border-black shadow-md p-3 rounded-md text-base focus:translate-y-1 focus:shadow-sm"
-                               id="username" name="username" placeholder="Enter your full name"/>
+                               id="username" name="username" placeholder="Enter your full name" value="testuser"/>
                     </div>
                     <div className="flex flex-col items-start my-5 w-full">
                         <label htmlFor="email" className="font-semibold mb-1">Email</label>
                         <input type="email"
                                className="w-full outline-none border-2 border-black shadow-md p-3 rounded-md text-base focus:translate-y-1 focus:shadow-sm"
-                               id="email" name="email" placeholder="Enter your email"/>
+                               id="email" name="email" placeholder="Enter your email" value="testuser@example.com"/>
                     </div>
                     <div className="flex flex-col items-start my-5 w-full">
                         <label htmlFor="password" className="font-semibold mb-1">Password</label>
                         <input type="password"
                                className="w-full outline-none border-2 border-black shadow-md p-3 rounded-md text-base focus:translate-y-1 focus:shadow-sm"
-                               id="password" name="password" placeholder="Enter your password"/>
+                               id="password" name="password" placeholder="Enter your password" value="testpassword"/>
                     </div>
                     <div>
                         <Button size="lg" className="w-full" type="submit">
