@@ -14,7 +14,7 @@ services:
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
     networks:
-      - traefik_network
+      - jobpilot_network
 
   traefik_backend:
     image: traefik:v2.5
@@ -27,7 +27,7 @@ services:
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
     networks:
-      - traefik_network
+      - jobpilot_network
 
   backend:
     build:
@@ -47,7 +47,7 @@ services:
       - "traefik.http.routers.backend.entrypoints=internal"  # Lié à l'entrée "internal"
       - "traefik.http.services.backend.loadbalancer.server.port=8000"
     networks:
-      - traefik_network
+      - jobpilot_network
 
   frontend:
     build:
@@ -67,7 +67,7 @@ services:
       - "traefik.http.routers.frontend.entrypoints=internal"  # Lié à l'entrée "internal"
       - "traefik.http.services.frontend.loadbalancer.server.port=3000"
     networks:
-      - traefik_network
+      - jobpilot_network
 
   database:
     image: postgres:15
