@@ -69,6 +69,44 @@ services:
     networks:
       - traefik_network
 
+  database:
+    image: postgres:15
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: jobpilot
+      POSTGRES_PASSWORD: jobpilot
+      POSTGRES_DB: jobpilot
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - jobpilot_network
+
+  minio:
+    image: minio/minio:latest
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: minioaccesskey
+      MINIO_ROOT_PASSWORD: miniosecretkey
+    volumes:
+      - minio_data:/data/minio
+    command: 'minio server /data/minio --address ":9000" --console-address ":9001"'
+    networks:
+      - jobpilot_network
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    networks:
+      - jobpilot_network
+
 networks:
-  traefik_network:
+  jobpilot_network:
     driver: bridge
+
+volumes:
+  minio_data:
+  postgres_data:
