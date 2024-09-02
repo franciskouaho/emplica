@@ -10,6 +10,12 @@ import {useToast} from "@/hooks/use-toast";
 import {ScanSearch, TestTube, Lock} from "lucide-react";
 import MatchingScore from "@/components/molecules/matching-score";
 import job from "@/types/jobs/job";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from '@/components/ui/tooltip'
 
 const Page = () => {
     const {toast} = useToast();
@@ -66,9 +72,28 @@ const Page = () => {
     const currentJobs = jobs?.slice(indexOfFirstJob, indexOfLastJob);
 
     const totalPages = Math.ceil((jobs?.length ?? 0) / jobsPerPage);
-    const pageNumbers = Array.from({length: totalPages}, (_, i) => i + 1);
 
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
+    const getPageNumbers = () => {
+        const maxButtons = 6;
+        let startPage = Math.max(1, currentPage - Math.floor(maxButtons / 2));
+        let endPage = Math.min(totalPages, startPage + maxButtons - 1);
+
+        if (endPage - startPage + 1 > maxButtons) {
+            startPage = endPage - maxButtons + 1;
+        }
+
+        const pageNumbers = Array.from({length: endPage - startPage + 1}, (_, i) => startPage + i);
+        if (startPage > 1) {
+            pageNumbers.unshift(1);
+        }
+        if (endPage < totalPages) {
+            pageNumbers.push(totalPages);
+        }
+
+        return pageNumbers;
+    };
 
     return (
         <div className="flex flex-col gap-6 lg:col-span-5 lg:row-span-1">
@@ -142,7 +167,18 @@ const Page = () => {
                                         <Checkbox checked={checked} setChecked={setChecked}/>
                                     </td>
                                     <td className="border-4 border-black p-2 whitespace-nowrap">{job.name_company}</td>
-                                    <td className="border-4 border-black p-2 whitespace-nowrap">{job.name_job}</td>
+                                    <td className="border-4 border-black p-2 whitespace-nowrap">
+                                        <TooltipProvider>
+                                            <Tooltip>
+                                                <TooltipTrigger asChild>
+                                                    <span>{job.name_job.length > 16 ? `${job.name_job.substring(0, 16)}...` : job.name_job}</span>
+                                                </TooltipTrigger>
+                                                <TooltipContent>
+                                                    <span>{job.name_job}</span>
+                                                </TooltipContent>
+                                            </Tooltip>
+                                        </TooltipProvider>
+                                    </td>
                                     <td className="border-4 border-black p-2 whitespace-nowrap">{job.salary_minimum && job.salary_maximum ? `${job.salary_minimum}€ - ${job.salary_maximum}€ ` : 'NR'}</td>
                                     <td className="border-4 border-black p-2 whitespace-nowrap">{job.city ? job.city : 'NR'}</td>
                                     <td className="border-4 border-black p-2 whitespace-nowrap">NR</td>
@@ -168,13 +204,13 @@ const Page = () => {
                     >
                         Previous
                     </button>
-                    {pageNumbers.map(number => (
+                    {getPageNumbers().map((number, index) => (
                         <button
                             key={number}
                             onClick={() => paginate(number)}
                             className={`border-black border-2 rounded-md p-2 mx-1 ${currentPage === number ? 'bg-gray-300' : ''}`}
                         >
-                            {number}
+                            {index === 0 && number !== 1 ? 1 : number}
                         </button>
                     ))}
                     <button

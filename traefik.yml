@@ -1,26 +1,16 @@
 entryPoints:
   web:
-    address: ":8081"
+    address: ":80"
   traefik:
-    address: ":8082"
-
+    address: ":8080"
 
 providers:
   docker:
+    endpoint: "unix:///var/run/docker.sock"
     exposedByDefault: false
 
 api:
   dashboard: true
-
-middlewares:
-  auth:
-    forwardAuth:
-      address: "http://backend:8000/auth"
-      trustForwardHeader: true
-      authResponseHeaders:
-        - "X-User"
-    responseForwarding:
-      flushInterval: 100ms
 
 http:
   routers:
@@ -29,16 +19,27 @@ http:
       service: backend_service
       entryPoints:
         - web
-      middlewares:
-        - auth
 
     frontend:
       rule: "Host(`localhost`)"
       service: frontend_service
       entryPoints:
         - web
+
+    jobpilot:
+      rule: "Host(`localhost`) && PathPrefix(`/jobpilot`)"
+      service: frontend_service
+      entryPoints:
+        - web
       middlewares:
-        - auth
+        - frontend-auth
+
+    frontend-unsecured:
+      rule: 'PathRegexp(`^/([a-z]{2})?/?$`) || PathRegexp(`^(/[a-z]{2})?/auth`) || PathRegexp(`^/(_next|static)`) || Path(`/__nextjs_original-stack-frame`)'
+      priority: 99
+      service: frontend_service
+      middlewares:
+        - frontend-auth
 
   services:
     backend_service:
@@ -50,3 +51,14 @@ http:
       loadBalancer:
         servers:
           - url: "http://frontend:3000"
+
+  middlewares:
+    frontend-auth:
+      forwardAuth:
+        address: "http://backend.localhost/auth"
+        trustForwardHeader: true
+        authResponseHeaders:
+          - "X-User"
+
+log:
+  level: DEBUG
