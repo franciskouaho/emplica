@@ -1,23 +1,6 @@
-version: '3.8'
+version: '3.7'
 
 services:
-  traefik:
-    image: traefik:v2.5
-    command:
-      - "--api.insecure=true"
-      - "--providers.docker=true"
-      - "--entrypoints.web.address=:8081"
-      - "--entrypoints.traefik.address=:8082"
-      - "--log.level=DEBUG"
-      - "--accesslog=true"
-    ports:
-      - "8083:8081"
-      - "8084:8082"
-    volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
-    networks:
-      - jobpilot_network
-
   backend:
     build:
       context: ./backend
@@ -33,9 +16,10 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.backend.rule=Host(`api.emplica.fr`)"
+      - "traefik.http.routers.backend.entrypoints=internal"
       - "traefik.http.services.backend.loadbalancer.server.port=8000"
     networks:
-      - jobpilot_network
+      - traefik_network
 
   frontend:
     build:
@@ -52,8 +36,10 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.frontend.rule=Host(`emplica.fr`)"
+      - "traefik.http.routers.frontend.entrypoints=internal"
+      - "traefik.http.services.frontend.loadbalancer.server.port=3000"
     networks:
-      - jobpilot_network
+      - traefik_network
 
   database:
     image: postgres:15
@@ -66,7 +52,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
-      - jobpilot_network
+      - traefik_network
 
   minio:
     image: minio/minio:latest
@@ -80,18 +66,18 @@ services:
       - minio_data:/data/minio
     command: 'minio server /data/minio --address ":9000" --console-address ":9001"'
     networks:
-      - jobpilot_network
+      - traefik_network
 
   redis:
     image: redis:latest
     ports:
       - "6379:6379"
     networks:
-      - jobpilot_network
+      - traefik_network
 
 networks:
-  jobpilot_network:
-    driver: bridge
+  traefik_network:
+    external: true
 
 volumes:
   minio_data:
