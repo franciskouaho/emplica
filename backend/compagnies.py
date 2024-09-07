@@ -41,7 +41,7 @@ def get_companies():
         'order_by': 'name',
         'language': 'fr',
         'page': '1',
-        'per_page': '10000',
+        'per_page': '40',
     }
 
     headers_companies = {

@@ -2,7 +2,7 @@
 
 import Checkbox from "@/components/atoms/checkbox";
 import {useEffect, useState} from "react";
-import {useMutation} from "@tanstack/react-query";
+import {useMutation, useQueryClient} from "@tanstack/react-query";
 import api from "@/config/api";
 import useJobs from "@/hooks/useJobs";
 import {ToastAction} from "@/components/ui/toast";
@@ -18,29 +18,43 @@ import {
 } from '@/components/ui/tooltip'
 
 const Page = () => {
+    const queryClient = useQueryClient()
+
     const {toast} = useToast();
     const {data: jobs, isLoading, isError} = useJobs('get_jobs', 'jobs');
+
     const [selectedJob, setSelectedJob] = useState<job | null>(null);
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [checked, setChecked] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const jobsPerPage = 12;
 
+    console.log(jobs)
+
     const handleScrappeWelcomeToTheJungle = useMutation({
         mutationFn: () => api.get('get_companies'),
-        onSuccess: () => {
-            toast({
-                title: "Job scrapped",
-                description: "Job scrapped from Welcome to the jungle",
-                action: <ToastAction altText="Goto jobs">Undo</ToastAction>,
-            });
+        onSuccess: async () => {
+            const get_jobs = await api.get('get_jobs')
+
+            if (get_jobs.status === 200) {
+                const saveFile = await api.get('process_files_from_bucket')
+
+                if (saveFile.status === 200) {
+                    toast({
+                        title: "Job scrapped",
+                        description: "Job scrapped from Welcome to the jungle",
+                    });
+                    await queryClient.invalidateQueries({queryKey: ['jobs']});
+                }
+            }
+
+
         },
         onError: () => {
             toast({
                 variant: 'destructive',
                 title: "Job scrapped",
                 description: "Job scrapped from Welcome to the jungle",
-                action: <ToastAction altText="Goto jobs">Undo</ToastAction>,
             });
         }
     });
@@ -69,9 +83,9 @@ const Page = () => {
 
     const indexOfLastJob = currentPage * jobsPerPage;
     const indexOfFirstJob = indexOfLastJob - jobsPerPage;
-    const currentJobs = jobs?.slice(indexOfFirstJob, indexOfLastJob);
+    const currentJobs = jobs && jobs.slice(indexOfFirstJob, indexOfLastJob);
 
-    const totalPages = Math.ceil((jobs?.length ?? 0) / jobsPerPage);
+    const totalPages = jobs ? Math.ceil(jobs.length / jobsPerPage) : 0;
 
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
@@ -171,7 +185,7 @@ const Page = () => {
                                         <TooltipProvider>
                                             <Tooltip>
                                                 <TooltipTrigger asChild>
-                                                    <span>{job.name_job.length > 16 ? `${job.name_job.substring(0, 16)}...` : job.name_job}</span>
+                                                    <span>{job.name_job && job.name_job.length > 16 ? `${job.name_job.substring(0, 16)}...` : job.name_job}</span>
                                                 </TooltipTrigger>
                                                 <TooltipContent>
                                                     <span>{job.name_job}</span>

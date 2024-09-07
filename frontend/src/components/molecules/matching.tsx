@@ -2,12 +2,13 @@
 
 import job from "@/types/jobs/job";
 import {ChangeEvent, FormEvent, FunctionComponent, useRef, useState} from "react";
-import {BriefcaseBusiness, FileText} from "lucide-react";
+import {BriefcaseBusiness, ExternalLink, FileText} from "lucide-react";
 import ScoreMeter from "@/components/molecules/score-meter";
 import {useMutation} from "@tanstack/react-query";
 import api from "@/config/api";
 import {toast} from "@/hooks/use-toast";
 import MatchingScore from "@/types/matching-score.ts/matching-score";
+import Link from "next/link";
 
 interface MatchingProps {
     job: job;
@@ -64,7 +65,7 @@ const Matching: FunctionComponent<MatchingProps> = ({job}) => {
 
 
     return (
-        <form onSubmit={handleSubmit} className="flex items-center justify-center ">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-20 items-center justify-center ">
             <div className="bg-white flex flex-col rounded-lg shadow-lg border-black border-2">
                 <div className="flex justify-center items-center border-b-2 border-gray-200 p-4">
                     <div className="flex gap-4 items-center justify-center text-center font-semibold">
@@ -124,6 +125,18 @@ const Matching: FunctionComponent<MatchingProps> = ({job}) => {
                             <h2 className="text-center mt-6 text-lg font-semibold">Mon Profil</h2>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <div className="w-full flex flex-col gap-4 items-center justify-center">
+                <div
+                    className="w-full bg-white rounded-lg shadow-lg border-black border-2 flex border-b-2 p-4">
+                    <p className="w-full flex justify-between text-center">
+                        {job.name_job}
+                        <Link target="_blank"
+                              href={`https://www.welcometothejungle.com/fr/companies/${job.name_company}/jobs/${job.slug}`}
+                              className="text-black hover:text-mainAccent"><ExternalLink/></Link>
+                    </p>
                 </div>
             </div>
         </form>
